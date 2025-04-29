@@ -1,0 +1,31 @@
+import platform
+import os
+import psutil
+import socket
+
+def get_system_info():
+    info = {
+        "System": platform.system(),
+        "Node Name": platform.node(),
+        "Release": platform.release(),
+        "Version": platform.version(),
+        "Machine": platform.machine(),
+        "Processor": platform.processor(),
+        "CPU Cores": psutil.cpu_count(logical=False),  # Physical cores
+        "Logical CPUs": psutil.cpu_count(logical=True), # Logical processors
+        "RAM Size": f"{round(psutil.virtual_memory().total / (1024 ** 3), 2)} GB",  # Total RAM
+        "Hostname": socket.gethostname(),
+        "IP Address": socket.gethostbyname(socket.gethostname())
+    }
+
+    return info
+
+def display_info(info):
+    print("\nSystem Information:")
+    print("-" * 30)
+    for key, value in info.items():
+        print(f"{key}: {value}")
+
+if __name__ == "__main__":
+    system_info = get_system_info()
+    display_info(system_info)
